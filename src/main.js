@@ -4,13 +4,21 @@ import App from './App.vue'
 import router from '@/router'
 // 引入element-ui
 import ElementUI from 'element-ui'
+// 引入样式
 import 'element-ui/lib/theme-chalk/index.css'
 
-import axios from 'axios'
+// 引入components
+import components from '@/components'
+
+// 引入axios
+import axios from '@/api/axios.js'
 // 挂载axios
 Vue.prototype.$axios = axios
+
 // 挂载element-ui
 Vue.use(ElementUI)
+// 挂载components
+Vue.use(components)
 
 Vue.config.productionTip = false
 

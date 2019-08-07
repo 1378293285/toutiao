@@ -8,7 +8,7 @@
           text-color  指定文字颜色
           active-text-color 指定选中菜单颜色 -->
       <el-menu
-        default-active="/"
+        :default-active="$route.path"
         background-color="#002033"
         text-color="#fff"
         active-text-color="#ffd04b"
@@ -26,7 +26,7 @@
           <i class="el-icon-document"></i>
           <span slot="title">内容管理</span>
         </el-menu-item>
-        <el-menu-item index="/images">
+        <el-menu-item index="/image">
           <i class="el-icon-picture"></i>
           <span slot="title">素材管理</span>
         </el-menu-item>
@@ -57,13 +57,13 @@
           <span class="el-dropdown-link">
             <img
               style="vertical-align: middle" width="30" height="30"
-              src="../../assets/images/avatar.jpg" alt="">
-            <b style="vertical-align:middle;padding-left:5px">hm</b>
+              :src="avatar" alt="">
+            <b style="vertical-align:middle;padding-left:5px">{{name}}</b>
             <i class="el-icon-arrow-down el-icon--right"></i>
           </span>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item icon="el-icon-setting">个人中心</el-dropdown-item>
-            <el-dropdown-item icon="el-icon-unlock">退出登录</el-dropdown-item>
+            <el-dropdown-item icon="el-icon-setting" @click.native="setting()">个人中心</el-dropdown-item>
+            <el-dropdown-item icon="el-icon-unlock" @click.native="logout()">退出登录</el-dropdown-item>
 
           </el-dropdown-menu>
         </el-dropdown>
@@ -81,12 +81,30 @@
 export default {
   data () {
     return {
-      collapse: false
+      collapse: false,
+      name: '',
+      avatar: ''
     }
   },
+  created () {
+    const user = JSON.parse(window.sessionStorage.getItem('toutiao'))
+    // console.log(user)
+    this.name = user.name
+    this.avatar = user.photo
+  },
   methods: {
+    // 导航切换
     tooggleMenu () {
       this.collapse = !this.collapse
+    },
+    // 个人中心
+    setting () {
+      this.$router.push('/setting')
+    },
+    // 退出登录
+    logout () {
+      window.sessionStorage.removeItem('toutiao')
+      this.$router.push('/login')
     }
   }
 }

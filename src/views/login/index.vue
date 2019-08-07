@@ -58,20 +58,17 @@ export default {
   methods: {
     login () {
       // 整体表单的校验
-      this.$refs.LoginForm.validate((valid) => {
+      this.$refs.LoginForm.validate(async valid => {
         if (valid) {
           // 如果校验成功，进行登录
-          this.$axios
-            .post('http://ttapi.research.itcast.cn/mp/v1_0/authorizations',
-              this.LoginForm)
-            .then(res => {
-              // const data = res.data
-              // console.log(data)
-              // 登录成功 跳转到首页
-              this.$router.push('/')
-            }).catch(() => {
-              this.$message.error('用户名或密码错误')
-            })
+          try { // 业务逻辑
+            const res = await this.$axios.post('authorizations', this.LoginForm)
+            window.sessionStorage.setItem('toutiao', JSON.stringify(res.data.data))
+            this.$router.push('/')
+          } catch (err) { // 业务逻辑失败，进行错误处理
+            // 提示错误
+            this.$message.error('用户名或密码错误')
+          }
         }
       })
     }
