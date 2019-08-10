@@ -10,6 +10,9 @@ import 'element-ui/lib/theme-chalk/index.css'
 // 引入components
 import components from '@/components'
 
+// 引入全局样式
+import '@/styles/index.less'
+
 // 引入axios
 import axios from '@/api/axios.js'
 // 挂载axios
